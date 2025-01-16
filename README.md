@@ -1,2 +1,2 @@
 # 12ITLF12AE
-[Usercase-DG](UseCaseDoubleOptIn.png)
+[Use Case Diagramm für den Double-Opt-In Prozess](UseCaseDoubleOptIn.png)
