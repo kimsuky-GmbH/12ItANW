@@ -1,2 +1,2 @@
 # 12ITLF12AE
-(Usercase-DG).[UseCaseDoubleOptIn.png]
+[Usercase-DG](UseCaseDoubleOptIn.png)
