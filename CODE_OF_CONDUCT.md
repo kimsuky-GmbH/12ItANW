@@ -1,7 +1,7 @@
 # Verhaltenskodex (Code of Conduct)
 
 ## 1. Einleitung
-Wir, das Team dieses Schulprojekts, verpflichten uns zu einer offenen, freundlichen und respektvollen Zusammenarbeit. Dieser Verhaltenskodex dient dazu, eine angenehme und produktive Umgebung zu schaffen, in der alle Beteiligten effektiv arbeiten können.
+Wir, das Team dieses Schulprojekts 12IT, verpflichten uns zu einer offenen, freundlichen und respektvollen Zusammenarbeit. Dieser Verhaltenskodex dient dazu, eine angenehme und produktive Umgebung zu schaffen, in der alle Beteiligten effektiv arbeiten können.
 
 ## 2. Grundsätze
 Wir erwarten von allen Beteiligten:
