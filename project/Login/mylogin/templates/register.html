@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Urban Climate Registrierung</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center my-5">
+            Urban Climate Registrierung
+        </h1>
+        <div class="row justify-content-center" id="emailVorhandenError" hidden>
+            <div class="col-4">
+                <div class="alert alert-danger" role="alert">
+                    Email bereits vorhanden!
+                </div>
+            </div>
+        </div>
+        {% if message == "userConfirmed" %}
+        <div class="row justify-content-center" id="emailBestaetigt">
+            <div class="col-4">
+                <div class="alert alert-success" role="alert">
+                    Email erfolgreich bestätigt
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="loginEmail" placeholder="name@example.com">
+                    <label for="loginEmail">Email address</label>
+                  </div>
+                  <div class="form-floating">
+                    <input type="password" class="form-control" id="loginPassword" placeholder="Password">
+                    <label for="loginPassword">Password</label>
+                  </div>
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            <a class="btn btn-primary" type="button" id="submitRegister" onclick="tryRegister()">
+                Registrieren
+            </a>
+            <button class="btn btn-primary" type="button" id="registerLoading" hidden>
+                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                <span role="status">Loading...</span>
+            </button>
+            <a class="btn btn-primary" type="button" href="#">
+                Zum Login
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        async function tryRegister() {
+            document.getElementById('submitRegister').setAttribute('hidden', true);
+            document.getElementById('registerLoading').removeAttribute('hidden', true);
+
+            let email = document.getElementById('loginEmail').value;
+            let password = document.getElementById('loginPassword').value;
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (false) { //!emailRegex.test(email)) {
+                document.getElementById('loginEmail').classList.add('is-invalid');
+                document.getElementById('submitRegister').removeAttribute('hidden', true);
+                document.getElementById('registerLoading').setAttribute('hidden', true);
+                return false;
+            } else {
+                document.getElementById('loginEmail').classList.remove('is-invalid');
+            }
+
+            let token = '{{ csrf_token }}';
+            let formData = new FormData;
+            
+            formData.append('todo', 'register');
+            formData.append('email', email);
+            formData.append('password', password);
+            formData.append('csrfmiddlewaretoken', token);
+            let response = await fetch('/login/', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                let data = await response.json();
+                if (data.error === "emailVorhanden") {
+                    document.getElementById('emailVorhandenError').removeAttribute('hidden', true);
+                    document.getElementById('submitRegister').removeAttribute('hidden', true);
+                    document.getElementById('registerLoading').setAttribute('hidden', true);
+                } else if (data.error == "emailBestaetigt") {
+                    document.getElementById('emailBestaetigt').removeAttribute('hidden', true);
+                    //document.getElementById('submitRegister').removeAttribute('hidden', true);
+                    //document.getElementById('registerLoading').setAttribute('hidden', true);
+                } else {
+                    document.getElementById('emailVorhandenError').setAttribute('hidden', true);
+                    document.getElementsByClassName('container').removeAttribute('hidden', true);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
