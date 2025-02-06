@@ -1,8 +1,11 @@
 # 📌 Django-Projekt
 ## Projekt der 12IT_AE
 
-##TestServer
-[click_me](http://127.0.0.1:8000/login/)
+##TestServer Login
+- [click_me](http://127.0.0.1:8000/login/)
+
+## Admin
+- [click_me](http://127.0.0.1:8000/admin)
 
 
 ![Django](https://img.shields.io/badge/Django-4.2-green)
