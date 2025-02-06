@@ -23,6 +23,8 @@
 Dieses Projekt bietet eine **Benutzerregistrierung mit Django**, die eine **E-Mail-Verifizierung** unterstützt, sowie einen **Single Sign-On (SSO)**-Mechanismus, der es Nutzern ermöglicht, sich mit einem einzigen Login über verschiedene Plattformen zu authentifizieren.
 
 ## 🚀 Installation
+Für die Installation -> [Anleitung](https://github.com/User90391/12ItANW/blob/main/project/project.md)
+
 
 ### 1️⃣ Abhängigkeiten installieren
 Stelle sicher, dass Docker und Python installiert sind. 
