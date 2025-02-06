@@ -1,12 +1,22 @@
 # ReadMe
 
 ### Installation
-- nach dem Pullen des Codes in das Hauptverzeichnis des Logins im project-Ordner navigieren (project/Login)
+- *nach dem Pullen des Codes* in das Hauptverzeichnis des Logins im project-Ordner navigieren
+```
+12ItANW   
+│
+└───project
+│   │   project.md
+│   │   .gitignore
+│   │
+│   └───Login
+│       │   ...
+
+```
 - Dann starten wir eine virtuelle Umgebung:
 ```sh
 python -m venv env
 ```
-Hier durch wir ein neuer Ordner erstellt
 - Danach falls nicht automatisch, müssen wir die virtuelle Umgebung noch starten:
 ```sh
 env/Scripts/activate
@@ -25,5 +35,4 @@ python  manage.py  migrate
 ```sh
 python manage.py runserver 0.0.0.0:8000
 ```
--Und dann auf folgende Seite
-[Webiste](https://127.0.0.1/Login)
+-Und dann auf folgende <a href="https://127.0.0.1:8000/Login" target="_blank">->Webiste<-</a>
