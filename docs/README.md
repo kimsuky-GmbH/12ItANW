@@ -11,7 +11,7 @@
 - [click_me](http://127.0.0.1:8000/admin)
 
 ## Planka  
--[learn_more](https://planka.karlkuebelschule.de/boards/1404271419818247740)
+- [learn_more](https://planka.karlkuebelschule.de/boards/1404271419818247740)
 ## Projektteilnehmer
 
 - David G.
