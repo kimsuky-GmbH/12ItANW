@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Urban Climate Registrierung</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center my-5">
+            Urban Climate Registrierung
+        </h1>
+        {% if message == "userConfirmed" %}
+            <div class="row justify-content-center">
+                <div class="col-4">
+                    <div class="alert alert-success" role="alert">
+                        Vielen Dank für Ihre Bestätigung. Sie könnnen sich jetzt einloggen.
+                    </div>
+                </div>
+            </div>    
+        {% endif %}
+        
+        {% if message == "userAlreadyConfirmed" %}
+            <div class="row justify-content-center">
+                <div class="col-4">
+                    <div class="alert alert-warning" role="alert">
+                        Dieser Benutzer wurde bereits bestätigt. Sie können sich einloggen.
+                    </div>
+                </div>
+            </div>    
+        {% endif %}
+
+        {% if message == "toLate" %}
+            <div class="row justify-content-center">
+                <div class="col-4">
+                    <div class="alert alert-danger" role="alert">
+                        Der Link ist abgelaufen. Bitte bestätigen Sie sich erneut.
+                    </div>
+                </div>
+            </div>            
+        {% endif %}
+
+        {% if message == "notFound" %}
+            <div class="row justify-content-center">
+                <div class="col-4">
+                    <div class="alert alert-danger" role="alert">
+                        Der Link ist ungültig.
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="text-center mt-3">
+
+            {% if message == "toLate" %}
+                <input type="button" class="btn btn-primary" value="Erneut bestätigen" id="resendConfirmation">
+            {% endif %}
+
+            <a class="btn btn-primary" type="button" href="#">
+                Zum Login
+            </a>
+        </div>
+    </div>
+
+    {% if message == "toLate" %}
+        <script>
+            document.getElementById('resendConfirmation').addEventListener('click', function() {
+                let token = '{{ csrf_token }}';
+                let formData = new FormData;
+                let userId = '{{ userId }}';
+                
+                formData.append('todo', 'resendEmail');
+                formData.append('userId', userId);
+                formData.append('csrfmiddlewaretoken', token);
+                fetch('/login/', {
+                    method: 'POST',
+                    body: formData
+                });
+            });
+        </script>
+    {% endif %}
+
+</body>
+</html>

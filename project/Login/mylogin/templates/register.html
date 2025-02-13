@@ -20,15 +20,13 @@
                 </div>
             </div>
         </div>
-        {% if message == "userConfirmed" %}
-        <div class="row justify-content-center" id="emailBestaetigt">
+        <div class="row justify-content-center" id="emailConfirm" hidden>
             <div class="col-4">
                 <div class="alert alert-success" role="alert">
-                    Email erfolgreich bestätigt
+                    Bitte bestätigen Sie Ihre Email-Adresse über die E-Mail, die wir Ihnen zugesendet haben!
                 </div>
             </div>
         </div>
-        {% endif %}
         <div class="row justify-content-center">
             <div class="col-4">
                 <div class="form-floating mb-3">
@@ -45,10 +43,6 @@
             <a class="btn btn-primary" type="button" id="submitRegister" onclick="tryRegister()">
                 Registrieren
             </a>
-            <button class="btn btn-primary" type="button" id="registerLoading" hidden>
-                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-                <span role="status">Loading...</span>
-            </button>
             <a class="btn btn-primary" type="button" href="#">
                 Zum Login
             </a>
@@ -57,18 +51,16 @@
     
     <script>
         async function tryRegister() {
-            document.getElementById('submitRegister').setAttribute('hidden', true);
-            document.getElementById('registerLoading').removeAttribute('hidden', true);
+            document.getElementById('submitRegister').setAttribute('disabled', true);
 
             let email = document.getElementById('loginEmail').value;
             let password = document.getElementById('loginPassword').value;
 
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            if (false) { //!emailRegex.test(email)) {
+            if (!emailRegex.test(email)) {
                 document.getElementById('loginEmail').classList.add('is-invalid');
-                document.getElementById('submitRegister').removeAttribute('hidden', true);
-                document.getElementById('registerLoading').setAttribute('hidden', true);
+        
                 return false;
             } else {
                 document.getElementById('loginEmail').classList.remove('is-invalid');
@@ -89,16 +81,12 @@
             if (response.ok) {
                 let data = await response.json();
                 if (data.error === "emailVorhanden") {
+                    document.getElementById('submitRegister').removeAttribute('disabled', true);
                     document.getElementById('emailVorhandenError').removeAttribute('hidden', true);
-                    document.getElementById('submitRegister').removeAttribute('hidden', true);
-                    document.getElementById('registerLoading').setAttribute('hidden', true);
-                } else if (data.error == "emailBestaetigt") {
-                    document.getElementById('emailBestaetigt').removeAttribute('hidden', true);
-                    //document.getElementById('submitRegister').removeAttribute('hidden', true);
-                    //document.getElementById('registerLoading').setAttribute('hidden', true);
+                    document.getElementById('emailConfirm').setAttribute('hidden', true);
                 } else {
                     document.getElementById('emailVorhandenError').setAttribute('hidden', true);
-                    document.getElementsByClassName('container').removeAttribute('hidden', true);
+                    document.getElementById('emailConfirm').removeAttribute('hidden', true);
                 }
             }
         }

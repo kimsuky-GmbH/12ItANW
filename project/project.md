@@ -34,6 +34,11 @@ python  manage.py  makemigrations
 python  manage.py  migrate
 ```
 
+- Um einen Adminuser zu erstellen, damit man in das Admininterface kann, diesen Code ausführen:
+```sh
+python manage.py createsuperuser
+```
+
 - Um das Porjekt zu starten einfach
 ```sh
 python manage.py runserver 0.0.0.0:8000
