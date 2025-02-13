@@ -36,6 +36,17 @@
             </div>    
         {% endif %}
 
+        <!-- Wenn am Link herumgespielt wurde (registerCode lässt sich nicht auf eine ID auflösen) -->
+        {% if message == "notFound" %}
+            <div class="row justify-content-center">
+                <div class="col-md-4">
+                    <div class="alert alert-danger" role="alert">
+                        Der Link ist ungültig.
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
         <!-- Wenn die Signatur abgelaufen ist -->
         {% if message == "toLate" %}
             <div class="row justify-content-center">
@@ -44,15 +55,11 @@
                         Der Link ist abgelaufen. Bitte bestätigen Sie sich erneut.
                     </div>
                 </div>
-            </div>            
-        {% endif %}
-
-        <!-- Wenn am Link herumgespielt wurde (registerCode lässt sich nicht auf eine ID auflösen) -->
-        {% if message == "notFound" %}
-            <div class="row justify-content-center">
+            </div>
+            <div class="row justify-content-center" id="emailConfirm" hidden>
                 <div class="col-md-4">
-                    <div class="alert alert-danger" role="alert">
-                        Der Link ist ungültig.
+                    <div class="alert alert-success" role="alert">
+                        Die E-Mail wurde erfolreich versendet.
                     </div>
                 </div>
             </div>
@@ -74,7 +81,7 @@
     <!-- Wenn die Signatur abgelaufen ist -->
     {% if message == "toLate" %}
         <script>
-            document.getElementById('resendConfirmation').addEventListener('click', function() {
+            document.getElementById('resendConfirmation').addEventListener('click', async function() {
                 document.getElementById('resendConfirmation').classList.add("disabled");
                 document.getElementById('resendConfirmation').setAttribute('aria-disabled', true);
                 
@@ -88,10 +95,18 @@
                 formData.append('todo', 'resendEmail');
                 formData.append('userId', userId);
                 formData.append('csrfmiddlewaretoken', token);
-                fetch('/login/', {
+                let response = await fetch('/login/', {
                     method: 'POST',
                     body: formData
                 });
+
+                //Wenn Antwort vom Server OK ist, also ohne Fehler, wird die Antwort in JSON umgewandelt und ausgewertet
+                if (response.ok) {
+                    let data = await response.json();
+                    if (data.success == true) {
+                        document.getElementById('emailConfirm').removeAttribute('hidden');
+                    }
+                }    
             });
         </script>
     {% endif %}
