@@ -12,6 +12,7 @@
 
 ## Planka  
 - [learn_more](https://planka.karlkuebelschule.de/boards/1404271419818247740)
+
 ## Projektteilnehmer
 
 - David G.
@@ -25,6 +26,8 @@
 
 ## 🌟 Überblick
 Dieses Projekt bietet eine **Benutzerregistrierung mit Django**, die eine **E-Mail-Verifizierung** unterstützt, sowie einen **Single Sign-On (SSO)**-Mechanismus, der es Nutzern ermöglicht, sich mit einem einzigen Login über verschiedene Plattformen zu authentifizieren.
+
+Projekt der 12IT AE der Karl Kübel Schule
 
 ## 🚀 Installation
 Für die Installation -> [Anleitung](https://github.com/User90391/12ItANW/blob/main/project/project.md)
