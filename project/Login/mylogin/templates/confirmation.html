@@ -13,9 +13,11 @@
         <h1 class="text-center my-5">
             Urban Climate Registrierung
         </h1>
+
+        <!-- Wenn alles funktioniert hat und der User angelegt wurde -->
         {% if message == "userConfirmed" %}
             <div class="row justify-content-center">
-                <div class="col-4">
+                <div class="col-md-4">
                     <div class="alert alert-success" role="alert">
                         Vielen Dank für Ihre Bestätigung. Sie könnnen sich jetzt einloggen.
                     </div>
@@ -23,9 +25,10 @@
             </div>    
         {% endif %}
         
+        <!-- Wenn der Benutzer bereits bestätigt wurde -->
         {% if message == "userAlreadyConfirmed" %}
             <div class="row justify-content-center">
-                <div class="col-4">
+                <div class="col-md-4">
                     <div class="alert alert-warning" role="alert">
                         Dieser Benutzer wurde bereits bestätigt. Sie können sich einloggen.
                     </div>
@@ -33,9 +36,10 @@
             </div>    
         {% endif %}
 
+        <!-- Wenn die Signatur abgelaufen ist -->
         {% if message == "toLate" %}
             <div class="row justify-content-center">
-                <div class="col-4">
+                <div class="col-md-4">
                     <div class="alert alert-danger" role="alert">
                         Der Link ist abgelaufen. Bitte bestätigen Sie sich erneut.
                     </div>
@@ -43,9 +47,10 @@
             </div>            
         {% endif %}
 
+        <!-- Wenn am Link herumgespielt wurde (registerCode lässt sich nicht auf eine ID auflösen) -->
         {% if message == "notFound" %}
             <div class="row justify-content-center">
-                <div class="col-4">
+                <div class="col-md-4">
                     <div class="alert alert-danger" role="alert">
                         Der Link ist ungültig.
                     </div>
@@ -55,6 +60,7 @@
 
         <div class="text-center mt-3">
 
+            <!-- Wenn die Signatur abgelaufen ist -->
             {% if message == "toLate" %}
                 <input type="button" class="btn btn-primary" value="Erneut bestätigen" id="resendConfirmation">
             {% endif %}
@@ -65,11 +71,18 @@
         </div>
     </div>
 
+    <!-- Wenn die Signatur abgelaufen ist -->
     {% if message == "toLate" %}
         <script>
             document.getElementById('resendConfirmation').addEventListener('click', function() {
+                document.getElementById('resendConfirmation').classList.add("disabled");
+                document.getElementById('resendConfirmation').setAttribute('aria-disabled', true);
+                
+                //POST an Django-Server
                 let token = '{{ csrf_token }}';
                 let formData = new FormData;
+
+                // userId wird aus dem Template übergeben
                 let userId = '{{ userId }}';
                 
                 formData.append('todo', 'resendEmail');

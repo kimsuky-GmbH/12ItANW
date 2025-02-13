@@ -26,6 +26,7 @@ def login(request):
                 if not User.objects.filter(email=email).exists(): # Kucken ob nicht schon jemand diese E-Mail hat
                     user = User.objects.create(email = email, password_hash = password_hash, isVerified = 0) # Objekt erstellen
 
+                    # Signatur erstellen
                     registerCode = timestamp_signer.sign(str(user.id))
 
                     # E-Mail senden
@@ -39,10 +40,12 @@ def login(request):
 
             # Wenn der User den Link erneut erhalten möchte    
             case 'resendEmail':
-                userId = request.POST['userId']
-                userId = timestamp_signer.unsign(userId)
+                # UserId entschlüsseln, neuen Registercode erstellen, Objekt holen und E-Mail senden 
+                encryptUserId = request.POST['userId']
+                userId = timestamp_signer.unsign(encryptUserId)
 
                 registerCode = timestamp_signer.sign(str(userId))
+
                 user = User.objects.get(id=userId, isVerified=False)
                 email = user.email
 
@@ -62,6 +65,7 @@ def login(request):
                 try:
                     userId = timestamp_signer.unsign(registerCode, max_age=36000)  # 36000 Sekunden = 10 Stunden
 
+                    # Kucken ob es ein Objekt mit der ID gibt und ob es noch nicht bestätigt wurde
                     if User.objects.filter(id=userId, isVerified=False).exists():
                         user = User.objects.get(id=userId, isVerified=False)
                         user.isVerified = True

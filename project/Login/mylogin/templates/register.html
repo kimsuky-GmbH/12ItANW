@@ -40,10 +40,10 @@
             </div>
         </div>
         <div class="text-center mt-3">
-            <a class="btn btn-primary" type="button" id="submitRegister" onclick="tryRegister()">
+            <a class="btn btn-primary" role="button" id="submitRegister" onclick="tryRegister()">
                 Registrieren
             </a>
-            <a class="btn btn-primary" type="button" href="#">
+            <a class="btn btn-primary" role="button" href="#">
                 Zum Login
             </a>
         </div>
@@ -51,7 +51,9 @@
     
     <script>
         async function tryRegister() {
-            document.getElementById('submitRegister').setAttribute('disabled', true);
+            // Button deaktivieren
+            document.getElementById('submitRegister').classList.add("disabled");
+            document.getElementById('submitRegister').setAttribute('aria-disabled', true);
 
             let email = document.getElementById('loginEmail').value;
             let password = document.getElementById('loginPassword').value;
@@ -59,13 +61,14 @@
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
             if (!emailRegex.test(email)) {
+                //Falls E-Mail nicht gültig ist, wird das Feld rot markiert
                 document.getElementById('loginEmail').classList.add('is-invalid');
-        
                 return false;
             } else {
                 document.getElementById('loginEmail').classList.remove('is-invalid');
             }
 
+            //POST Request an Django-Server
             let token = '{{ csrf_token }}';
             let formData = new FormData;
             
@@ -78,10 +81,13 @@
                 body: formData
             });
 
+            //Wenn Antwort vom Server OK ist, also ohne Fehler, wird die Antwort in JSON umgewandelt und ausgewertet
             if (response.ok) {
                 let data = await response.json();
                 if (data.error === "emailVorhanden") {
-                    document.getElementById('submitRegister').removeAttribute('disabled', true);
+                    document.getElementById('submitRegister').classList.remove("disabled");
+                    document.getElementById('submitRegister').setAttribute('aria-disabled', false);
+                    
                     document.getElementById('emailVorhandenError').removeAttribute('hidden', true);
                     document.getElementById('emailConfirm').setAttribute('hidden', true);
                 } else {
