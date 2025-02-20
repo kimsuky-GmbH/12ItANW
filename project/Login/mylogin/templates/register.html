@@ -20,15 +20,13 @@
                 </div>
             </div>
         </div>
-        {% if message == "userConfirmed" %}
-        <div class="row justify-content-center" id="emailBestaetigt">
+        <div class="row justify-content-center" id="emailConfirm" hidden>
             <div class="col-4">
                 <div class="alert alert-success" role="alert">
-                    Email erfolgreich bestätigt
+                    Bitte bestätigen Sie Ihre Email-Adresse über die E-Mail, die wir Ihnen zugesendet haben!
                 </div>
             </div>
         </div>
-        {% endif %}
         <div class="row justify-content-center">
             <div class="col-4">
                 <div class="form-floating mb-3">
@@ -42,14 +40,10 @@
             </div>
         </div>
         <div class="text-center mt-3">
-            <a class="btn btn-primary" type="button" id="submitRegister" onclick="tryRegister()">
+            <a class="btn btn-primary" role="button" id="submitRegister" onclick="tryRegister()">
                 Registrieren
             </a>
-            <button class="btn btn-primary" type="button" id="registerLoading" hidden>
-                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-                <span role="status">Loading...</span>
-            </button>
-            <a class="btn btn-primary" type="button" href="#">
+            <a class="btn btn-primary" role="button" href="#">
                 Zum Login
             </a>
         </div>
@@ -57,23 +51,24 @@
     
     <script>
         async function tryRegister() {
-            document.getElementById('submitRegister').setAttribute('hidden', true);
-            document.getElementById('registerLoading').removeAttribute('hidden', true);
+            // Button deaktivieren
+            document.getElementById('submitRegister').classList.add("disabled");
+            document.getElementById('submitRegister').setAttribute('aria-disabled', true);
 
             let email = document.getElementById('loginEmail').value;
             let password = document.getElementById('loginPassword').value;
 
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            if (false) { //!emailRegex.test(email)) {
+            if (!emailRegex.test(email)) {
+                //Falls E-Mail nicht gültig ist, wird das Feld rot markiert
                 document.getElementById('loginEmail').classList.add('is-invalid');
-                document.getElementById('submitRegister').removeAttribute('hidden', true);
-                document.getElementById('registerLoading').setAttribute('hidden', true);
                 return false;
             } else {
                 document.getElementById('loginEmail').classList.remove('is-invalid');
             }
 
+            //POST Request an Django-Server
             let token = '{{ csrf_token }}';
             let formData = new FormData;
             
@@ -86,19 +81,18 @@
                 body: formData
             });
 
+            //Wenn Antwort vom Server OK ist, also ohne Fehler, wird die Antwort in JSON umgewandelt und ausgewertet
             if (response.ok) {
                 let data = await response.json();
                 if (data.error === "emailVorhanden") {
+                    document.getElementById('submitRegister').classList.remove("disabled");
+                    document.getElementById('submitRegister').setAttribute('aria-disabled', false);
+                    
                     document.getElementById('emailVorhandenError').removeAttribute('hidden', true);
-                    document.getElementById('submitRegister').removeAttribute('hidden', true);
-                    document.getElementById('registerLoading').setAttribute('hidden', true);
-                } else if (data.error == "emailBestaetigt") {
-                    document.getElementById('emailBestaetigt').removeAttribute('hidden', true);
-                    //document.getElementById('submitRegister').removeAttribute('hidden', true);
-                    //document.getElementById('registerLoading').setAttribute('hidden', true);
+                    document.getElementById('emailConfirm').setAttribute('hidden', true);
                 } else {
                     document.getElementById('emailVorhandenError').setAttribute('hidden', true);
-                    document.getElementsByClassName('container').removeAttribute('hidden', true);
+                    document.getElementById('emailConfirm').removeAttribute('hidden', true);
                 }
             }
         }
