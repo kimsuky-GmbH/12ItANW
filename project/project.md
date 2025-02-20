@@ -22,6 +22,7 @@ python -m venv env
 ```sh
 env/Scripts/activate
 ```
+👉 Virtuelle-Umgebung-Aktivierung muss vor jedem Start des Projekts erfolgen! 👈
 
 - Jetzt die benötigten Pakete installieren:
 ```sh
