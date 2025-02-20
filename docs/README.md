@@ -4,11 +4,14 @@
 ![Django](https://img.shields.io/badge/Django-4.2-green)
 ![Docker](https://img.shields.io/badge/Docker-24.0-blue)
 
-## TestServer Login
-- [click_me](http://127.0.0.1:8000/login/)
 
-## Admin
-- [click_me](http://127.0.0.1:8000/admin)
+
+## 🏗️ Technologien
+- Django 4.2 (Backend)
+- Docker 24.0 (Containerisierung)
+- PostgreSQL (Datenbank)
+- Planka (Projektmanagement)
+
 
 ## Planka  
 - [learn_more](https://planka.karlkuebelschule.de/boards/1404271419818247740)
@@ -35,25 +38,10 @@ Stelle sicher, dass Docker und Python installiert sind.
 
 
 
-
-### 2️  
-
-
-
-
-
-### 3️⃣ 
-
-
-
-
-
-
-
-
-### 4️⃣
-
-
+### 2️⃣ Repository klonen
+```bash
+git clone https://github.com/User90391/12ItANW.git
+cd 12ItANW
 
 
 
